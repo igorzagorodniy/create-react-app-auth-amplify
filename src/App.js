@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-
 import logo from './logo.svg';
 import './App.css';
 import { withAuthenticator } from 'aws-amplify-react'
@@ -8,7 +6,7 @@ import Amplify, { Auth } from 'aws-amplify';
 import aws_exports from './aws-exports';
 Amplify.configure(aws_exports);
 
-class App extends Component {
+export default class App extends Component {
   constructor(props)
     {
       super(props);
@@ -27,9 +25,9 @@ class App extends Component {
     }
     updateInput(evt){
       this.state={value: evt.target.value};   
-        }
-    
-    render()
+  }
+
+  render()
     {
       return (
       <form onSubmit={this.addValue}>
@@ -40,4 +38,3 @@ class App extends Component {
     }
 }
 
-ReactDOM.render(<Hello />, document.getElementById('root'));
