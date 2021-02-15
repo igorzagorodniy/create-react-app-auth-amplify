@@ -20,6 +20,42 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <script src="https://sdk.amazonaws.com/js/aws-sdk-2.843.0.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script type="text/javascript">
+      // Configure AWS SDK for JavaScript
+    // Initialize the Amazon Cognito credentials provider
+    AWS.config.region = 'us-east-1'; // Region
+    AWS.config.credentials = new AWS.CognitoIdentityCredentials({
+        IdentityPoolId: 'us-east-1:bbf08c61-ebb9-402d-ae84-f5328611c4f1',
+    });
+
+    function sendEmail()
+{
+    var pullReturned = null;
+    var slotResults;	
+    var isSpinning = false;
+    
+    // Prepare to call Lambda function
+    var lambda = new AWS.Lambda({region: 'REGION', apiVersion: '2015-03-31'});
+
+    lambda.invoke({
+      FunctionName: 'sendMail',
+      Payload: JSON.stringify('igor.zagorodniy@yahoo.com')
+    }, function(err, data) {
+      var result = document.getElementById('result');
+      if (err) {
+        console.log(err, err.stack);
+        result.innerHTML = err;
+      } else {
+        var output = JSON.parse(data.Payload);
+        result.innerHTML = output;
+      }
+  });
+}
+
+
+    </script>
   </head>
   <body>
     <noscript>
@@ -36,5 +72,11 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <div>
+      <input type="button" onclick="sendEmail()" value="send">
+    </div>
+    <div id="result">
+      res
+     </div>
   </body>
 </html>
